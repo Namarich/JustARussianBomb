@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortionStrength: 0.1
+    - _DistortionStrength: 0.3
     - _TimeSpeed: 1
     m_Colors:
     - _Color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
