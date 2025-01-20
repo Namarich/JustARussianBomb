@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    public GameObject shader;
+
     void Start()
     {
         levels[currentLevel - 1].defaultLevel.SetActive(true);
@@ -41,6 +43,14 @@ public class GameManager : MonoBehaviour
             levels[currentLevel - 1].livesForThisLevel -= 1;
             levels[currentLevel - 1].defaultLevel.SetActive(!levels[currentLevel - 1].defaultLevel.active);
             levels[currentLevel - 1].changedLevel.SetActive(!levels[currentLevel - 1].changedLevel.active);
+            if (levels[currentLevel - 1].changedLevel.active)
+            {
+                shader.SetActive(true);
+            }
+            else
+            {
+                shader.SetActive(false);
+            }
         }
         
     }
