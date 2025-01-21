@@ -1,11 +1,13 @@
-Shader "Custom/HallucinationShader"
+Shader "Custom/LessVibrantColorShader"
 {
     Properties
     {
         _MainTex("Base Texture", 2D) = "white" { }
         _Color("Color Tint", Color) = (1, 1, 1, 1)
         _TimeSpeed("Time Speed", Float) = 1.0
-        _DistortionStrength("Distortion Strength", Float) = 0.1
+        _WaveFrequency("Wave Frequency", Float) = 10.0
+        _WaveAmplitude("Wave Amplitude", Float) = 0.1
+        _ColorBrightness("Color Brightness", Float) = 0.5
     }
         SubShader
         {
@@ -13,7 +15,6 @@ Shader "Custom/HallucinationShader"
 
             Pass
             {
-                // Fullscreen hallucination shader
                 CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
@@ -35,7 +36,9 @@ Shader "Custom/HallucinationShader"
                 sampler2D _MainTex;
                 float4 _Color;
                 float _TimeSpeed;
-                float _DistortionStrength;
+                float _WaveFrequency;
+                float _WaveAmplitude;
+                float _ColorBrightness;
 
                 v2f vert(appdata v)
                 {
@@ -47,23 +50,38 @@ Shader "Custom/HallucinationShader"
 
                 half4 frag(v2f i) : SV_Target
                 {
-                    // Get the current time
+                    // Time for wave animation
                     float time = _Time.y * _TimeSpeed;
 
-                // Distort the UV coordinates to create a wavy effect
-                float waveX = sin(i.uv.y * 10.0 + time) * _DistortionStrength;
-                float waveY = cos(i.uv.x * 10.0 + time) * _DistortionStrength;
-                float2 distortedUV = i.uv + float2(waveX, waveY);
+                // Multi-directional wave distortions
+                float waveH = sin(i.uv.x * _WaveFrequency + time) * _WaveAmplitude;
+                float waveV = cos(i.uv.y * _WaveFrequency + time) * _WaveAmplitude;
+                float waveDiag1 = sin((i.uv.x + i.uv.y) * _WaveFrequency * 0.8 + time * 1.5) * _WaveAmplitude;
+                float waveDiag2 = cos((i.uv.x - i.uv.y) * _WaveFrequency * 1.2 - time * 2.0) * _WaveAmplitude;
+                float waveRadial = sin(sqrt(i.uv.x * i.uv.x + i.uv.y * i.uv.y) * _WaveFrequency * 2.0 + time) * _WaveAmplitude;
 
-                // Add a color shift for a psychedelic effect
-                float3 colorShift = float3(
-                    tex2D(_MainTex, distortedUV + float2(0.01, 0)).r,
-                    tex2D(_MainTex, distortedUV + float2(0, 0.01)).g,
-                    tex2D(_MainTex, distortedUV - float2(0.01, 0)).b
+                // Combine waves for UV distortion
+                float2 distortedUV = i.uv + float2(
+                    waveH + waveDiag1 + waveRadial, // X-direction
+                    waveV + waveDiag2 + waveRadial  // Y-direction
                 );
 
-                // Apply a color tint
-                return half4(colorShift * _Color.rgb, 1.0);
+                // Dynamic color waves
+                float3 colorWaves = float3(
+                    sin(distortedUV.x * 10.0 + time * 2.0), // Red channel
+                    cos(distortedUV.y * 15.0 - time * 1.5), // Green channel
+                    sin((distortedUV.x + distortedUV.y) * 5.0 + time * 3.0) // Blue channel
+                );
+
+                // Scale down the brightness of the color waves
+                colorWaves *= _ColorBrightness;
+
+                // Blend color waves with base texture
+                float3 baseColor = tex2D(_MainTex, distortedUV).rgb;
+                float3 finalColor = baseColor * 0.5 + colorWaves * 0.5; // Even blend of base and waves
+
+                // Apply final tint
+                return half4(finalColor * _Color.rgb, 1.0);
             }
             ENDCG
         }

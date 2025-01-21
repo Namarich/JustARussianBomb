@@ -24,13 +24,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: 3f62fb959aa9e144e8a31888cacf5b0d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Amplitude: 0.1
+    - _ColorBrightness: 0.7
+    - _ColorWaveIntensity: 0.7
     - _DistortionStrength: 0.3
+    - _Frequency: 10
     - _TimeSpeed: 1
+    - _WaveAmplitude: 0.12
+    - _WaveFrequency: 4
     m_Colors:
-    - _Color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
