@@ -42,6 +42,7 @@ public class Key : MonoBehaviour
         if(collision.transform.gameObject.tag == "Player")
         {
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hasKey = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().key = gameObject;
         }
     }
 }

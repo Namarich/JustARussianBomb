@@ -11,6 +11,16 @@ public class Player : MonoBehaviour
 
     public bool hasKey = false;
 
+    public GameObject key;
+
+    public float blowUpRadius = 10f;
+
+    public CircleCollider2D blowUpZone;
+
+    public void Start()
+    {
+        blowUpZone.radius = blowUpRadius;
+    }
 
     public void Update()
     {
@@ -21,15 +31,24 @@ public class Player : MonoBehaviour
 
         //rb.velocity += Vector2.right * moveHorizontal * speed;
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BlowUp();
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BlowUp(blowUpZone);
         }
     }
 
     public void Jump(float power)
     {
         rb.velocity += Vector2.up * power;
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "BlockingWall")
+        {
+            collision.transform.gameObject.SetActive(false);
+        }
     }
 
 

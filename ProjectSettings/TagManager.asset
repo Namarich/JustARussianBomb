@@ -7,6 +7,7 @@ TagManager:
   - JumpPad
   - Teleport1
   - Teleport2
+  - BlockingWall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Butterfly
-  - 
+  - BlockingWall
   - 
   - 
   - 
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Shader
+    uniqueID: 1317426175
     locked: 0
