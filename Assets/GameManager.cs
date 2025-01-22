@@ -32,19 +32,33 @@ public class GameManager : MonoBehaviour
     public TMP_Text lifeText;
     public TMP_Text levelText;
 
+    public bool startFromTheBeginning;
+
     void Start()
     {
+        if (startFromTheBeginning)
+        {
+            PlayerPrefs.SetInt("level", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level"));
+        }
+
+        currentLevel = PlayerPrefs.GetInt("level");
         NewLevel();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        currentLevel = PlayerPrefs.GetInt("level");
     }
 
     public void BlowUp(CircleCollider2D blowUpZone)
     {
+        currentLevel = PlayerPrefs.GetInt("level");
+        Debug.Log(PlayerPrefs.GetInt("level"));
         if (levels[currentLevel-1].livesForThisLevel >= 1)
         {
             levels[currentLevel - 1].livesForThisLevel -= 1;
@@ -60,10 +74,9 @@ public class GameManager : MonoBehaviour
 
     public void NewLevel()
     {
-        
-        currentLevel += 1;
         if (currentLevel <= levels.Count)
         {
+            Debug.Log(currentLevel);
             for (int i = 0;i < levels.Count; i++)
             {
                 levels[i].wholeLevel.SetActive(false);
@@ -79,6 +92,17 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("no more levelse");
+        }
+        
+    }
+
+    public void BeatALevel()
+    {
+        if (currentLevel <= levels.Count)
+        {
+            currentLevel = PlayerPrefs.GetInt("level") + 1;
+            Debug.Log(currentLevel);
+            PlayerPrefs.SetInt("level", currentLevel);
         }
         
     }

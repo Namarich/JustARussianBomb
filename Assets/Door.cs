@@ -24,6 +24,7 @@ public class Door : MonoBehaviour
             {
                 Debug.Log("nextlevel");
                 collision.gameObject.GetComponent<Player>().key.SetActive(false);
+                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
                 GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
             }
 
