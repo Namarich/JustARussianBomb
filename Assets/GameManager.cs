@@ -96,6 +96,8 @@ public class GameManager : MonoBehaviour
             levelText.text = "Level " + currentLevel.ToString();
             levels[currentLevel - 1].livesForThisLevel = levels[currentLevel - 1].maxLives;
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
+            player.GetComponent<Player>().hasKey = false;
+            player.GetComponent<Player>().key = null;
         }
         else
         {
