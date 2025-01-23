@@ -23,8 +23,12 @@ public class JumpPad : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.transform.gameObject.GetComponent<Player>().Jump(power);
-            Debug.Log("collision with the player");
+            if(collision.gameObject.GetComponent<Player>().blowUpZone != collision)
+            {
+                collision.transform.gameObject.GetComponent<Player>().Jump(power);
+                Debug.Log("collision with the player");
+            }
+            
         }
 
         

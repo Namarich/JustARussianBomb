@@ -35,6 +35,8 @@ public class Player : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BlowUp(blowUpZone);
         }
+
+        
     }
 
     public void Jump(float power)

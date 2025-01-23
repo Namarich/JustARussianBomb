@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
         public GameObject changedLevel;
         public Transform playerSpawnPoint;
         public int livesForThisLevel = 5;
+        public int maxLives = 5;
     }
 
     public List<Level> levels;
@@ -53,6 +54,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         currentLevel = PlayerPrefs.GetInt("level");
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            NewLevel();
+        }
     }
 
     public void BlowUp(CircleCollider2D blowUpZone)
@@ -88,6 +94,8 @@ public class GameManager : MonoBehaviour
             levels[currentLevel - 1].defaultLevel.SetActive(true);
             levels[currentLevel - 1].changedLevel.SetActive(false);
             levelText.text = "Level " + currentLevel.ToString();
+            levels[currentLevel - 1].livesForThisLevel = levels[currentLevel - 1].maxLives;
+            lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
         }
         else
         {
