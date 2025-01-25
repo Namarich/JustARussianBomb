@@ -1,4 +1,4 @@
-Shader "Custom/LessVibrantColorShader"
+Shader "Custom/PixelatedColorShader"
 {
     Properties
     {
@@ -8,6 +8,7 @@ Shader "Custom/LessVibrantColorShader"
         _WaveFrequency("Wave Frequency", Float) = 10.0
         _WaveAmplitude("Wave Amplitude", Float) = 0.1
         _ColorBrightness("Color Brightness", Float) = 0.5
+        _PixelDensity("Pixel Density", Float) = 100.0 // Controls the pixel size
     }
         SubShader
         {
@@ -39,6 +40,7 @@ Shader "Custom/LessVibrantColorShader"
                 float _WaveFrequency;
                 float _WaveAmplitude;
                 float _ColorBrightness;
+                float _PixelDensity; // Number of pixels per unit
 
                 v2f vert(appdata v)
                 {
@@ -50,41 +52,44 @@ Shader "Custom/LessVibrantColorShader"
 
                 half4 frag(v2f i) : SV_Target
                 {
+                    // Pixelation: Quantize UV coordinates
+                    float2 pixelUV = floor(i.uv * _PixelDensity) / _PixelDensity;
+
                     // Time for wave animation
                     float time = _Time.y * _TimeSpeed;
 
-                // Multi-directional wave distortions
-                float waveH = sin(i.uv.x * _WaveFrequency + time) * _WaveAmplitude;
-                float waveV = cos(i.uv.y * _WaveFrequency + time) * _WaveAmplitude;
-                float waveDiag1 = sin((i.uv.x + i.uv.y) * _WaveFrequency * 0.8 + time * 1.5) * _WaveAmplitude;
-                float waveDiag2 = cos((i.uv.x - i.uv.y) * _WaveFrequency * 1.2 - time * 2.0) * _WaveAmplitude;
-                float waveRadial = sin(sqrt(i.uv.x * i.uv.x + i.uv.y * i.uv.y) * _WaveFrequency * 2.0 + time) * _WaveAmplitude;
+                    // Multi-directional wave distortions
+                    float waveH = sin(pixelUV.x * _WaveFrequency + time) * _WaveAmplitude;
+                    float waveV = cos(pixelUV.y * _WaveFrequency + time) * _WaveAmplitude;
+                    float waveDiag1 = sin((pixelUV.x + pixelUV.y) * _WaveFrequency * 0.8 + time * 1.5) * _WaveAmplitude;
+                    float waveDiag2 = cos((pixelUV.x - pixelUV.y) * _WaveFrequency * 1.2 - time * 2.0) * _WaveAmplitude;
+                    float waveRadial = sin(sqrt(pixelUV.x * pixelUV.x + pixelUV.y * pixelUV.y) * _WaveFrequency * 2.0 + time) * _WaveAmplitude;
 
-                // Combine waves for UV distortion
-                float2 distortedUV = i.uv + float2(
-                    waveH + waveDiag1 + waveRadial, // X-direction
-                    waveV + waveDiag2 + waveRadial  // Y-direction
-                );
+                    // Combine waves for UV distortion
+                    float2 distortedUV = pixelUV + float2(
+                        waveH + waveDiag1 + waveRadial, // X-direction
+                        waveV + waveDiag2 + waveRadial  // Y-direction
+                    );
 
-                // Dynamic color waves
-                float3 colorWaves = float3(
-                    sin(distortedUV.x * 10.0 + time * 2.0), // Red channel
-                    cos(distortedUV.y * 15.0 - time * 1.5), // Green channel
-                    sin((distortedUV.x + distortedUV.y) * 5.0 + time * 3.0) // Blue channel
-                );
+                    // Dynamic color waves
+                    float3 colorWaves = float3(
+                        sin(distortedUV.x * 10.0 + time * 2.0), // Red channel
+                        cos(distortedUV.y * 15.0 - time * 1.5), // Green channel
+                        sin((distortedUV.x + distortedUV.y) * 5.0 + time * 3.0) // Blue channel
+                    );
 
-                // Scale down the brightness of the color waves
-                colorWaves *= _ColorBrightness;
+                    // Scale down the brightness of the color waves
+                    colorWaves *= _ColorBrightness;
 
-                // Blend color waves with base texture
-                float3 baseColor = tex2D(_MainTex, distortedUV).rgb;
-                float3 finalColor = baseColor * 0.5 + colorWaves * 0.5; // Even blend of base and waves
+                    // Blend color waves with base texture
+                    float3 baseColor = tex2D(_MainTex, distortedUV).rgb;
+                    float3 finalColor = baseColor * 0.5 + colorWaves * 0.5; // Even blend of base and waves
 
-                // Apply final tint
-                return half4(finalColor * _Color.rgb, 1.0);
+                    // Apply final tint
+                    return half4(finalColor * _Color.rgb, 1.0);
+                }
+                ENDCG
             }
-            ENDCG
-        }
         }
             Fallback "Unlit/Color"
 }

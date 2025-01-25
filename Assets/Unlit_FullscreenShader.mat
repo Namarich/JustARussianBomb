@@ -34,9 +34,12 @@ Material:
     - _ColorWaveIntensity: 0.7
     - _DistortionStrength: 0.3
     - _Frequency: 10
+    - _PixelDensity: 52
     - _TimeSpeed: 1
     - _WaveAmplitude: 0.12
     - _WaveFrequency: 4
+    - _WireframeThickness: 0.01
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _WireframeColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

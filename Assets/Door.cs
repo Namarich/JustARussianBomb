@@ -22,10 +22,14 @@ public class Door : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Player>().hasKey)
             {
-                Debug.Log("nextlevel");
-                collision.gameObject.GetComponent<Player>().key.SetActive(false);
-                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
-                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
+                if (collision != GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().blowUpZone)
+                {
+                    Debug.Log("nextlevel");
+                    collision.gameObject.GetComponent<Player>().key.SetActive(false);
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
+                }
+                
             }
 
         }
