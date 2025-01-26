@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
 
     private float maxJumpPower;
 
+    public List<GameObject> DisabledWalls;
+
     public void Start()
     {
         blowUpZone.radius = blowUpRadius;
@@ -58,6 +60,7 @@ public class Player : MonoBehaviour
         if(collision.tag == "BlockingWall")
         {
             collision.transform.gameObject.SetActive(false);
+            DisabledWalls.Add(collision.gameObject);
         }
     }
 

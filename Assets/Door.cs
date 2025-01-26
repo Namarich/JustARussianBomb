@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+
+    public Sprite defaul;
+    public Sprite killed;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameObject.GetComponent<SpriteRenderer>().sprite = defaul;
     }
 
     // Update is called once per frame
@@ -26,12 +30,20 @@ public class Door : MonoBehaviour
                 {
                     Debug.Log("nextlevel");
                     collision.gameObject.GetComponent<Player>().key.SetActive(false);
-                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
-                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
+                    gameObject.GetComponent<SpriteRenderer>().sprite = killed;
+                    gameObject.transform.position += new Vector3(0,0.2f,0f);
+                    StartCoroutine(Wait());
                 }
                 
             }
 
         }
+    }
+
+    public IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2f);
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
     }
 }

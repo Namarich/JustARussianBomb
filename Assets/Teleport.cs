@@ -33,9 +33,11 @@ public class Teleport : MonoBehaviour
             {
                 gameObject.GetComponent<SpriteRenderer>().sprite = circleTeleport;
             }
+            Debug.Log("regular Level");
             
         }
-        if (!GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().isRegularLevel)
+
+        else if (!GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().isRegularLevel)
         {
             if (isGroundOnChanged)
             {

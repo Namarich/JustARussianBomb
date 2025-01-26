@@ -23,6 +23,15 @@ public class GameManager : MonoBehaviour
         public Transform keyDefaultParent;
     }
 
+    [System.Serializable]
+    public class DefaultShaderValues
+    {
+        public int pixelDensity;
+        public float colorBrightness;
+        public float waveAmplitude;
+    }
+
+
     public List<Level> levels;
 
     public int currentLevel = 0;
@@ -36,6 +45,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text lifeText;
     public TMP_Text levelText;
 
+    public Material shaderObject;
+
     public bool startFromTheBeginning;
 
     public GameObject pauseMenu;
@@ -44,6 +55,12 @@ public class GameManager : MonoBehaviour
     private bool isShader = true;
 
     public bool isRegularLevel;
+
+    public Slider sliderPixel;
+    public Slider sliderColor;
+    public Slider sliderAmplitude;
+
+    public DefaultShaderValues values;
 
     void Start()
     {
@@ -56,8 +73,21 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level"));
         }
 
+
+        DefaultShaderSettings();
         currentLevel = PlayerPrefs.GetInt("level");
         NewLevel();
+    }
+
+    public void DefaultShaderSettings()
+    {
+        shaderObject.SetFloat("_PixelDensity", values.pixelDensity);
+        shaderObject.SetFloat("_ColorBrightness", values.colorBrightness);
+        shaderObject.SetFloat("_WaveAmplitude", values.waveAmplitude);
+        sliderPixel.value = values.pixelDensity;
+        sliderColor.value = values.colorBrightness;
+        sliderAmplitude.value = values.waveAmplitude;
+
     }
 
     public void ChangeShader()
@@ -79,6 +109,10 @@ public class GameManager : MonoBehaviour
         {
             NewLevel();
         }
+
+        shaderObject.SetFloat("_PixelDensity", sliderPixel.value);
+        shaderObject.SetFloat("_ColorBrightness", sliderColor.value);
+        shaderObject.SetFloat("_WaveAmplitude", sliderAmplitude.value);
     }
 
     public void BlowUp(CircleCollider2D blowUpZone)
@@ -99,6 +133,10 @@ public class GameManager : MonoBehaviour
             levels[currentLevel - 1].changedLevel.SetActive(!levels[currentLevel - 1].changedLevel.active);
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
             isRegularLevel = levels[currentLevel - 1].defaultLevel.active;
+        }
+        else
+        {
+            NewLevel();
         }
         
     }
@@ -132,6 +170,11 @@ public class GameManager : MonoBehaviour
             player.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
             levels[currentLevel - 1].key.transform.position = levels[currentLevel - 1].keySpawnPoint.position;
             levels[currentLevel - 1].key.transform.parent = levels[currentLevel - 1].keyDefaultParent;
+            isRegularLevel = true;
+            for (int i = 0;i < player.GetComponent<Player>().DisabledWalls.Count; i++)
+            {
+                player.GetComponent<Player>().DisabledWalls[i].SetActive(true);
+            }
         }
         else
         {
