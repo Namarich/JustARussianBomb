@@ -45,6 +45,7 @@ public class Key : MonoBehaviour
             {
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().hasKey = true;
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().key = gameObject;
+                gameObject.transform.parent = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().levels[GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().currentLevel - 1].wholeLevel.transform;
             }
             
         }

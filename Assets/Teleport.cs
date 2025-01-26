@@ -8,6 +8,12 @@ public class Teleport : MonoBehaviour
 
     public Transform otherTeleport;
 
+    public Sprite circleTeleport;
+    public Sprite groundTeleport;
+
+    public bool isGroundOnRegular = true;
+    public bool isGroundOnChanged = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +23,30 @@ public class Teleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().isRegularLevel)
+        {
+            if (isGroundOnRegular)
+            {
+                gameObject.GetComponent<SpriteRenderer>().sprite = groundTeleport;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().sprite = circleTeleport;
+            }
+            
+        }
+        if (!GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().isRegularLevel)
+        {
+            if (isGroundOnChanged)
+            {
+                gameObject.GetComponent<SpriteRenderer>().sprite = groundTeleport;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().sprite = circleTeleport;
+            }
+
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

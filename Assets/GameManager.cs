@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
         public Transform playerSpawnPoint;
         public int livesForThisLevel = 5;
         public int maxLives = 5;
+        public GameObject key;
+        public Transform keySpawnPoint;
+        public Transform keyDefaultParent;
     }
 
     public List<Level> levels;
@@ -35,6 +38,13 @@ public class GameManager : MonoBehaviour
 
     public bool startFromTheBeginning;
 
+    public GameObject pauseMenu;
+    public Toggle toggle;
+
+    private bool isShader = true;
+
+    public bool isRegularLevel;
+
     void Start()
     {
         if (startFromTheBeginning)
@@ -48,6 +58,16 @@ public class GameManager : MonoBehaviour
 
         currentLevel = PlayerPrefs.GetInt("level");
         NewLevel();
+    }
+
+    public void ChangeShader()
+    {
+        isShader = toggle.isOn;
+        Debug.Log(isShader);
+        if (!isShader)
+        {
+            shader.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -65,17 +85,27 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = PlayerPrefs.GetInt("level");
         Debug.Log(PlayerPrefs.GetInt("level"));
+        pauseMenu.SetActive(false);
         if (levels[currentLevel-1].livesForThisLevel >= 1)
         {
             levels[currentLevel - 1].livesForThisLevel -= 1;
-            shader.SetActive(!shader.active);
+            if (isShader)
+            {
+                shader.SetActive(!shader.active);
+            }
             particles.Play();
             StartCoroutine(TriggerBlowUpZone(blowUpZone));
             levels[currentLevel - 1].defaultLevel.SetActive(!levels[currentLevel - 1].defaultLevel.active);
             levels[currentLevel - 1].changedLevel.SetActive(!levels[currentLevel - 1].changedLevel.active);
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
+            isRegularLevel = levels[currentLevel - 1].defaultLevel.active;
         }
         
+    }
+
+    public void ActivateMenu()
+    {
+        pauseMenu.SetActive(!pauseMenu.active);
     }
 
     public void NewLevel()
@@ -98,6 +128,10 @@ public class GameManager : MonoBehaviour
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
             player.GetComponent<Player>().hasKey = false;
             player.GetComponent<Player>().key = null;
+            particles.Stop();
+            player.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+            levels[currentLevel - 1].key.transform.position = levels[currentLevel - 1].keySpawnPoint.position;
+            levels[currentLevel - 1].key.transform.parent = levels[currentLevel - 1].keyDefaultParent;
         }
         else
         {

@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     public CircleCollider2D blowUpZone;
 
+    private float maxJumpPower;
+
     public void Start()
     {
         blowUpZone.radius = blowUpRadius;
@@ -36,12 +38,18 @@ public class Player : MonoBehaviour
             GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BlowUp(blowUpZone);
         }
 
+        if (rb.velocity.y > maxJumpPower)
+        {
+            rb.velocity = Vector2.up * maxJumpPower;
+        }
+
         
     }
 
     public void Jump(float power)
     {
         rb.velocity += Vector2.up * power;
+        maxJumpPower = power;
     }
 
 
