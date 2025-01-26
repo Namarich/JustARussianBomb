@@ -32,6 +32,7 @@ public class Door : MonoBehaviour
                     collision.gameObject.GetComponent<Player>().key.SetActive(false);
                     gameObject.GetComponent<SpriteRenderer>().sprite = killed;
                     gameObject.transform.position += new Vector3(0,0.2f,0f);
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().wasKilled = true;
                     StartCoroutine(Wait());
                 }
                 

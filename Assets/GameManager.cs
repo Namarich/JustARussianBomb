@@ -62,6 +62,10 @@ public class GameManager : MonoBehaviour
 
     public DefaultShaderValues values;
 
+    public bool wasKilled = false;
+
+    public GameObject loseScreen;
+
     void Start()
     {
         if (startFromTheBeginning)
@@ -105,7 +109,7 @@ public class GameManager : MonoBehaviour
     {
         currentLevel = PlayerPrefs.GetInt("level");
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && !wasKilled)
         {
             NewLevel();
         }
@@ -120,7 +124,7 @@ public class GameManager : MonoBehaviour
         currentLevel = PlayerPrefs.GetInt("level");
         Debug.Log(PlayerPrefs.GetInt("level"));
         pauseMenu.SetActive(false);
-        if (levels[currentLevel-1].livesForThisLevel >= 1)
+        if (levels[currentLevel-1].livesForThisLevel >= 1 && !wasKilled)
         {
             levels[currentLevel - 1].livesForThisLevel -= 1;
             if (isShader)
@@ -134,11 +138,19 @@ public class GameManager : MonoBehaviour
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
             isRegularLevel = levels[currentLevel - 1].defaultLevel.active;
         }
-        else
+        else if (!wasKilled)
         {
-            NewLevel();
+            StartCoroutine(Lose());
         }
         
+    }
+
+    public IEnumerator Lose()
+    {
+        loseScreen.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        loseScreen.SetActive(false);
+        NewLevel();
     }
 
     public void ActivateMenu()
@@ -175,6 +187,8 @@ public class GameManager : MonoBehaviour
             {
                 player.GetComponent<Player>().DisabledWalls[i].SetActive(true);
             }
+            wasKilled = false;
+
         }
         else
         {
