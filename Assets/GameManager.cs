@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -80,7 +81,15 @@ public class GameManager : MonoBehaviour
 
         DefaultShaderSettings();
         currentLevel = PlayerPrefs.GetInt("level");
-        NewLevel();
+        if(PlayerPrefs.GetInt("loadLevel") != 0)
+        {
+            PlayLevel(PlayerPrefs.GetInt("loadLevel"));
+            PlayerPrefs.SetInt("loadLevel", 0);
+        }
+        else
+        {
+            NewLevel();
+        }
     }
 
     public void DefaultShaderSettings()
@@ -92,6 +101,11 @@ public class GameManager : MonoBehaviour
         sliderColor.value = values.colorBrightness;
         sliderAmplitude.value = values.waveAmplitude;
 
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void ChangeShader()
@@ -197,9 +211,19 @@ public class GameManager : MonoBehaviour
         
     }
 
+
+    public void PlayLevel(int level)
+    {
+        if (level <= levels.Count)
+        {
+            currentLevel = level;
+            NewLevel();
+        }
+    }
+
     public void BeatALevel()
     {
-        if (currentLevel <= levels.Count)
+        if (currentLevel <= levels.Count && currentLevel >= PlayerPrefs.GetInt("level"))
         {
             currentLevel = PlayerPrefs.GetInt("level") + 1;
             Debug.Log(currentLevel);
