@@ -132,6 +132,8 @@ MonoBehaviour:
   groundTeleport: {fileID: 21300000, guid: 836d4b2e5fe3969469777ca17fbef46b, type: 3}
   isGroundOnRegular: 1
   isGroundOnChanged: 1
+  color: {r: 0.25490198, g: 0.25490198, b: 0.25490198, a: 0}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &3532492878548576126
 BoxCollider2D:
   m_ObjectHideFlags: 0

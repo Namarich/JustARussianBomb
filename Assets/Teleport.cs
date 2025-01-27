@@ -14,6 +14,9 @@ public class Teleport : MonoBehaviour
     public bool isGroundOnRegular = true;
     public bool isGroundOnChanged = true;
 
+    public Color color;
+    public Color defaultColor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +73,11 @@ public class Teleport : MonoBehaviour
 
     IEnumerator Cooldown(Collider2D collision)
     {
+        gameObject.GetComponent<SpriteRenderer>().color = color;
+        otherTeleport.GetComponent<SpriteRenderer>().color = color;
         yield return new WaitForSeconds(cooldown);
+        gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
+        otherTeleport.GetComponent<SpriteRenderer>().color = defaultColor;
         collision.GetComponent<Player>().canTeleport = true;
     }
 }
