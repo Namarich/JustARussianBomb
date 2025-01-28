@@ -67,6 +67,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject loseScreen;
 
+    private float StartOfTheLevel;
+    public TMP_Text speedrun;
+    private double speedrunTime;
+
+    public GameObject TimeTable;
+
     void Start()
     {
         if (startFromTheBeginning)
@@ -90,6 +96,9 @@ public class GameManager : MonoBehaviour
         {
             NewLevel();
         }
+
+        StartOfTheLevel = 0f;
+        TimeTable.SetActive(false);
     }
 
     public void DefaultShaderSettings()
@@ -131,6 +140,19 @@ public class GameManager : MonoBehaviour
         shaderObject.SetFloat("_PixelDensity", sliderPixel.value);
         shaderObject.SetFloat("_ColorBrightness", sliderColor.value);
         shaderObject.SetFloat("_WaveAmplitude", sliderAmplitude.value);
+        
+    }
+
+
+    public void ShowTime()
+    {
+        TimeTable.SetActive(true);
+        speedrunTime = ((Mathf.Round((Time.time - StartOfTheLevel) * 100)) / 100.0);
+        speedrun.text = speedrunTime.ToString() + "s";
+        if(speedrunTime < PlayerPrefs.GetFloat(currentLevel.ToString() + "time"))
+        {
+            PlayerPrefs.SetFloat(currentLevel.ToString() + "time", (float)speedrunTime);
+        }
     }
 
     public void BlowUp(CircleCollider2D blowUpZone)
@@ -182,6 +204,7 @@ public class GameManager : MonoBehaviour
             {
                 levels[i].wholeLevel.SetActive(false);
             }
+            TimeTable.SetActive(false);
             shader.SetActive(false);
             levels[currentLevel - 1].wholeLevel.SetActive(true);
             lifeText.text = ":" + levels[currentLevel - 1].livesForThisLevel.ToString();
@@ -204,7 +227,7 @@ public class GameManager : MonoBehaviour
             }
             wasKilled = false;
             player.GetComponent<Player>().canTeleport = true;
-
+            StartOfTheLevel = Time.time;
         }
         else
         {

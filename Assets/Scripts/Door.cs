@@ -43,6 +43,7 @@ public class Door : MonoBehaviour
 
     public IEnumerator Wait()
     {
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ShowTime();
         yield return new WaitForSeconds(2f);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();

@@ -34,25 +34,15 @@ public class MenuManager : MonoBehaviour
             PlayerPrefs.SetInt("maxLevel", 1);
         }
 
-        foreach(var button in buttons)
-        {
-            if (System.Convert.ToInt32(button.transform.GetChild(0).GetComponent<TMP_Text>().text) > PlayerPrefs.GetInt("maxLevel"))
-            {
-                button.GetComponent<Image>().color = disabledColor;
-            }
-        }
+        
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        clickedButton = EventSystem.current.currentSelectedGameObject;
-
-        if (clickedButton)
-        {
-            Debug.Log(clickedButton.transform.GetChild(0).GetComponent<TMP_Text>().text);
-        }
-        
+        clickedButton = EventSystem.current.currentSelectedGameObject;   
     }
 
     public bool CheckIfUnlocked(GameObject button)
@@ -76,6 +66,29 @@ public class MenuManager : MonoBehaviour
             tutorial.SetActive(true);
         }
         tutorialButton.SetActive(true);
+
+        Debug.Log("change");
+
+        for (int i = 1; i <= buttons.Count; i++)
+        {
+            if (PlayerPrefs.GetFloat(i.ToString() + "time") < 1)
+            {
+                PlayerPrefs.SetFloat(i.ToString() + "time", 10000f);
+            }
+            Debug.Log(PlayerPrefs.GetFloat(i.ToString() + "time"));
+        }
+
+        foreach (var button in buttons)
+        {
+            if (System.Convert.ToInt32(button.transform.GetChild(0).GetComponent<TMP_Text>().text) > PlayerPrefs.GetInt("maxLevel"))
+            {
+                button.GetComponent<Image>().color = disabledColor;
+            }
+            if (PlayerPrefs.GetFloat((buttons.IndexOf(button)+1).ToString() + "time") != 10000f)
+            {
+                button.transform.GetChild(1).GetComponent<TMP_Text>().text = PlayerPrefs.GetFloat((buttons.IndexOf(button)+1).ToString() + "time").ToString()+"s";
+            }
+        }
     }
 
     public void ShowTutorial()
