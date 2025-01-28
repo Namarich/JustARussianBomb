@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject loseScreen;
 
-    private float StartOfTheLevel;
+    public float StartOfTheLevel;
     public TMP_Text speedrun;
     private double speedrunTime;
 
@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && !wasKilled)
         {
             NewLevel();
+            StartOfTheLevel = Time.time;
         }
 
         shaderObject.SetFloat("_PixelDensity", sliderPixel.value);
@@ -188,6 +189,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         loseScreen.SetActive(false);
         NewLevel();
+        StartOfTheLevel = Time.time;
     }
 
     public void ActivateMenu()
@@ -261,7 +263,7 @@ public class GameManager : MonoBehaviour
             
         }
         door.GetComponent<Door>().hasBeenKilled = false;
-        
+
     }
 
     IEnumerator TriggerBlowUpZone(CircleCollider2D b)

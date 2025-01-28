@@ -75,7 +75,6 @@ public class MenuManager : MonoBehaviour
             {
                 PlayerPrefs.SetFloat(i.ToString() + "time", 10000f);
             }
-            Debug.Log(PlayerPrefs.GetFloat(i.ToString() + "time"));
         }
 
         foreach (var button in buttons)

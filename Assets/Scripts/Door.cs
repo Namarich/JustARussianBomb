@@ -50,5 +50,6 @@ public class Door : MonoBehaviour
         yield return new WaitForSeconds(2f);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel(gameObject);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().StartOfTheLevel = Time.time;
     }
 }
