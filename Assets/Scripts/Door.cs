@@ -8,6 +8,8 @@ public class Door : MonoBehaviour
     public Sprite defaul;
     public Sprite killed;
 
+    public bool hasBeenKilled = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class Door : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<Player>().hasKey)
             {
-                if (collision != GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().blowUpZone)
+                if (collision != GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().blowUpZone && !hasBeenKilled)
                 {
                     Debug.Log("nextlevel");
                     collision.gameObject.GetComponent<Player>().key.SetActive(false);
@@ -43,9 +45,10 @@ public class Door : MonoBehaviour
 
     public IEnumerator Wait()
     {
+        hasBeenKilled = true;
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ShowTime();
         yield return new WaitForSeconds(2f);
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel();
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel(gameObject);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
     }
 }

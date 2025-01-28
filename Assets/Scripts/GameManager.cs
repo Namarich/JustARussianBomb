@@ -247,7 +247,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void BeatALevel()
+    public void BeatALevel(GameObject door)
     {
         if (currentLevel <= levels.Count && currentLevel >= PlayerPrefs.GetInt("level"))
         {
@@ -258,7 +258,9 @@ public class GameManager : MonoBehaviour
             {
                 PlayerPrefs.SetInt("maxLevel", currentLevel);
             }
+            
         }
+        door.GetComponent<Door>().hasBeenKilled = false;
         
     }
 
