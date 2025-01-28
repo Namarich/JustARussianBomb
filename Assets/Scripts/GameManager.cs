@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject TimeTable;
 
+    public SoundManager soundManager;
+
     void Start()
     {
         if (startFromTheBeginning)
@@ -163,6 +165,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false);
         if (levels[currentLevel-1].livesForThisLevel >= 1 && !wasKilled)
         {
+            soundManager.PlaySound(6);
             levels[currentLevel - 1].livesForThisLevel -= 1;
             if (isShader)
             {
@@ -177,6 +180,7 @@ public class GameManager : MonoBehaviour
         }
         else if (!wasKilled)
         {
+            soundManager.PlaySound(3);
             StartCoroutine(Lose());
             player.GetComponent<Player>().canTeleport = true;
         }
@@ -185,6 +189,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Lose()
     {
+        soundManager.PlaySound(3);
         loseScreen.SetActive(true);
         yield return new WaitForSeconds(2.5f);
         loseScreen.SetActive(false);

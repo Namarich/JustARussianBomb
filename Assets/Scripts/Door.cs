@@ -30,7 +30,7 @@ public class Door : MonoBehaviour
             {
                 if (collision != GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().blowUpZone && !hasBeenKilled)
                 {
-                    Debug.Log("nextlevel");
+                    GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().soundManager.PlaySound(4);
                     collision.gameObject.GetComponent<Player>().key.SetActive(false);
                     gameObject.GetComponent<SpriteRenderer>().sprite = killed;
                     gameObject.transform.position += new Vector3(0,0.2f,0f);
