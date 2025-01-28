@@ -34,7 +34,7 @@ Material:
     - _ColorWaveIntensity: 0.7
     - _DistortionStrength: 0.3
     - _Frequency: 10
-    - _PixelDensity: 150
+    - _PixelDensity: 200
     - _TimeSpeed: 1
     - _WaveAmplitude: 0.1
     - _WaveFrequency: 4

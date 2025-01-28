@@ -202,6 +202,7 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<Player>().DisabledWalls[i].SetActive(true);
             }
             wasKilled = false;
+            
         }
         else
         {
@@ -228,6 +229,10 @@ public class GameManager : MonoBehaviour
             currentLevel = PlayerPrefs.GetInt("level") + 1;
             Debug.Log(currentLevel);
             PlayerPrefs.SetInt("level", currentLevel);
+            if (currentLevel > PlayerPrefs.GetInt("maxLevel"))
+            {
+                PlayerPrefs.SetInt("maxLevel", currentLevel);
+            }
         }
         
     }
