@@ -20,7 +20,8 @@ public class Teleport : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
+        otherTeleport.GetComponent<SpriteRenderer>().color = defaultColor;
     }
 
     // Update is called once per frame

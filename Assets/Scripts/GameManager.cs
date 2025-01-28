@@ -155,6 +155,7 @@ public class GameManager : MonoBehaviour
         else if (!wasKilled)
         {
             StartCoroutine(Lose());
+            player.GetComponent<Player>().canTeleport = true;
         }
         
     }
@@ -202,7 +203,8 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<Player>().DisabledWalls[i].SetActive(true);
             }
             wasKilled = false;
-            
+            player.GetComponent<Player>().canTeleport = true;
+
         }
         else
         {
