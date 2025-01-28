@@ -18,13 +18,18 @@ public class MenuManager : MonoBehaviour
 
     public Color disabledColor;
 
+    public GameObject tutorial;
+    public GameObject tutorialButton;
+
     // Start is called before the first frame update
     void Start()
     {
         mainMenu.SetActive(true);
         theLevels.SetActive(false);
+        tutorial.SetActive(false);
+        tutorialButton.SetActive(false);
 
-        if (PlayerPrefs.GetInt("maxLevel") < 1)
+        if (PlayerPrefs.GetInt("maxLevel") <= 1)
         {
             PlayerPrefs.SetInt("maxLevel", 1);
         }
@@ -65,6 +70,17 @@ public class MenuManager : MonoBehaviour
     {
         mainMenu.SetActive(!mainMenu.active);
         theLevels.SetActive(!theLevels.active);
+        if (PlayerPrefs.GetInt("maxLevel") <= 1)
+        {
+            PlayerPrefs.SetInt("maxLevel", 1);
+            tutorial.SetActive(true);
+        }
+        tutorialButton.SetActive(true);
+    }
+
+    public void ShowTutorial()
+    {
+        tutorial.SetActive(!tutorial.active);
     }
 
     public void StartLevel()

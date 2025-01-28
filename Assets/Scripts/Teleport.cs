@@ -17,11 +17,14 @@ public class Teleport : MonoBehaviour
     public Color color;
     public Color defaultColor;
 
+    private int cLevel;
+
     // Start is called before the first frame update
     void Start()
     {
         gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
         otherTeleport.GetComponent<SpriteRenderer>().color = defaultColor;
+        cLevel = PlayerPrefs.GetInt("level");
     }
 
     // Update is called once per frame
@@ -53,6 +56,13 @@ public class Teleport : MonoBehaviour
             }
 
         }
+
+        if (cLevel != PlayerPrefs.GetInt("level"))
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
+            cLevel = PlayerPrefs.GetInt("level");
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
