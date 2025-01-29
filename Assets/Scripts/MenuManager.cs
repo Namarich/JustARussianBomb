@@ -33,9 +33,6 @@ public class MenuManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("maxLevel", 1);
         }
-
-        
-
         
     }
 

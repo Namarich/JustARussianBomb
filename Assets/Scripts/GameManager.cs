@@ -254,6 +254,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("no more levelse");
+            StartOfTheLevel = Time.time;
         }
         
     }
