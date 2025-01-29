@@ -26,7 +26,7 @@ public class JumpPad : MonoBehaviour
             if(collision.gameObject.GetComponent<Player>().blowUpZone != collision)
             {
                 collision.transform.gameObject.GetComponent<Player>().Jump(power);
-                Debug.Log("collision with the player");
+                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().soundManager.PlaySound(2);
             }
             
         }

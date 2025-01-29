@@ -63,17 +63,21 @@ public class Teleport : MonoBehaviour
             cLevel = PlayerPrefs.GetInt("level");
         }
 
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().canTeleport)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = defaultColor;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.gameObject.tag == "Player")
+        if(collision.transform.gameObject.tag == "Player" && collision != collision.gameObject.GetComponent<Player>().blowUpZone)
         {
             if (collision.gameObject.GetComponent<Player>().canTeleport)
             {
-                
                 collision.transform.position = otherTeleport.transform.position;
-                
+                GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().soundManager.PlaySound(5);
+
                 collision.GetComponent<Player>().canTeleport = false;
 
                 StartCoroutine(Cooldown(collision));

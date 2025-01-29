@@ -9,6 +9,8 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public float soundVolume = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,11 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(int index)
     {
+
+        audioSource.volume = soundVolume;
         audioSource.clip = sounds[index];
         audioSource.Play();
+
+        
     }
 }

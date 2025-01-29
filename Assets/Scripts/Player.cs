@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 
     public void Jump(float power)
     {
-        rb.velocity += Vector2.up * power;
+        rb.velocity = Vector2.up * power;
         maxJumpPower = power;
     }
 

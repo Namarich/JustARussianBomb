@@ -10,6 +10,8 @@ public class Door : MonoBehaviour
 
     public bool hasBeenKilled = false;
 
+    public ParticleSystem bloodParticles;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,10 +33,8 @@ public class Door : MonoBehaviour
                 if (collision != GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().blowUpZone && !hasBeenKilled)
                 {
                     GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().soundManager.PlaySound(4);
-                    collision.gameObject.GetComponent<Player>().key.SetActive(false);
-                    gameObject.GetComponent<SpriteRenderer>().sprite = killed;
-                    gameObject.transform.position += new Vector3(0,0.2f,0f);
                     GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().wasKilled = true;
+                    collision.gameObject.GetComponent<Player>().key.SetActive(false);
                     StartCoroutine(Wait());
                 }
                 
@@ -46,8 +46,13 @@ public class Door : MonoBehaviour
     public IEnumerator Wait()
     {
         hasBeenKilled = true;
+        bloodParticles.Play();
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().soundManager.PlaySound(4);
+        yield return new WaitForSeconds(0.15f);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().ShowTime();
-        yield return new WaitForSeconds(2f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = killed;
+        gameObject.transform.position += new Vector3(0, 0.2f, 0f);
+        yield return new WaitForSeconds(1.85f);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().BeatALevel(gameObject);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().NewLevel();
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().StartOfTheLevel = Time.time;

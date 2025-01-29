@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     public Slider sliderPixel;
     public Slider sliderColor;
     public Slider sliderAmplitude;
+    public Slider sliderMasterVolume;
 
     public DefaultShaderValues values;
 
@@ -85,6 +87,12 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("level", PlayerPrefs.GetInt("level"));
         }
+
+        if (PlayerPrefs.GetFloat("masterVolume") != 0)
+        {
+            sliderMasterVolume.value = PlayerPrefs.GetFloat("masterVolume");
+        }
+        
 
 
         DefaultShaderSettings();
@@ -143,6 +151,9 @@ public class GameManager : MonoBehaviour
         shaderObject.SetFloat("_PixelDensity", sliderPixel.value);
         shaderObject.SetFloat("_ColorBrightness", sliderColor.value);
         shaderObject.SetFloat("_WaveAmplitude", sliderAmplitude.value);
+
+        soundManager.GetComponent<SoundManager>().soundVolume = sliderMasterVolume.value;
+        PlayerPrefs.SetFloat("masterVolume", sliderMasterVolume.value);
         
     }
 
@@ -200,6 +211,10 @@ public class GameManager : MonoBehaviour
     public void ActivateMenu()
     {
         pauseMenu.SetActive(!pauseMenu.active);
+        if (pauseMenu.active)
+        {
+            TimeTable.SetActive(false);
+        }
     }
 
     public void NewLevel()
