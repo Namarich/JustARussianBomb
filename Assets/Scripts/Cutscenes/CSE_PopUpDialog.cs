@@ -28,8 +28,10 @@ public class CSE_PopUpDialog : CutsceneElementBase
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration-0.5f);
         anim.Play("FadeOut");
+        yield return new WaitForSeconds(0.5f);
+        cutsceneHandler.PlayNextElement();
     }
 
     public void SetTextPosition()
