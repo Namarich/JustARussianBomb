@@ -275,6 +275,8 @@ MonoBehaviour:
   textPosition: 2
   charactersPerSecond: 12
   anim: {fileID: 28249760}
+  doesItHaveAPanel: 0
+  panel: {fileID: 0}
 --- !u!114 &65335795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +297,8 @@ MonoBehaviour:
   textPosition: 2
   charactersPerSecond: 8
   anim: {fileID: 28249760}
+  doesItHaveAPanel: 0
+  panel: {fileID: 0}
 --- !u!114 &65335796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +319,8 @@ MonoBehaviour:
   textPosition: 2
   charactersPerSecond: 15
   anim: {fileID: 28249760}
+  doesItHaveAPanel: 0
+  panel: {fileID: 0}
 --- !u!114 &65335797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +339,8 @@ MonoBehaviour:
   textPosition: 2
   charactersPerSecond: 15
   anim: {fileID: 28249760}
+  doesItHaveAPanel: 0
+  panel: {fileID: 0}
 --- !u!114 &65335798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +361,8 @@ MonoBehaviour:
   textPosition: 2
   charactersPerSecond: 15
   anim: {fileID: 28249760}
+  doesItHaveAPanel: 0
+  panel: {fileID: 0}
 --- !u!114 &65335799
 MonoBehaviour:
   m_ObjectHideFlags: 0

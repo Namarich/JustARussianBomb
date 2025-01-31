@@ -278,8 +278,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("no more levelse");
-            StartOfTheLevel = Time.time;
+            SceneManager.LoadScene("Win");
         }
         
     }
