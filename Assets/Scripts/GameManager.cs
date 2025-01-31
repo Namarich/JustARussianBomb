@@ -263,7 +263,18 @@ public class GameManager : MonoBehaviour
             }
             wasKilled = false;
             player.GetComponent<Player>().canTeleport = true;
-            StartOfTheLevel = Time.time;
+            
+
+            if ((currentLevel == 1 && PlayerPrefs.GetInt("maxLevel") == 1) || showPlayerCutscene)
+            {
+                cutsceneBase.GetComponent<BoxCollider2D>().enabled = true;
+                StartOfTheLevel = Time.time + 12f;
+            }
+            else
+            {
+                cutsceneBase.GetComponent<BoxCollider2D>().enabled = false;
+                StartOfTheLevel = Time.time;
+            }
         }
         else
         {
