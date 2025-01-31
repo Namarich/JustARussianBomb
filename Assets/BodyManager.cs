@@ -24,7 +24,7 @@ public class BodyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        main.SetActive(false);
+
         StartCoroutine(Wait());
     }
 
@@ -48,7 +48,7 @@ public class BodyManager : MonoBehaviour
     private IEnumerator Wait()
     {
         yield return new WaitForSeconds(waitAtTheStartOfTheScene);
-        main.SetActive(true);
+
         StartCoroutine(ChangeSprite());
     }
 }

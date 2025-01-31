@@ -99,8 +99,16 @@ public class MenuManager : MonoBehaviour
         {
             TMP_Text b = clickedButton.transform.GetChild(0).GetComponent<TMP_Text>();
             int a = System.Convert.ToInt32(b.text);
-            PlayerPrefs.SetInt("loadLevel", a);
-            SceneManager.LoadScene("SampleScene");
+            if (a == 1 && PlayerPrefs.GetInt("maxLevel") == 1)
+            {
+                SceneManager.LoadScene("Cutscene");
+            }
+            else
+            {
+                PlayerPrefs.SetInt("loadLevel", a);
+                SceneManager.LoadScene("SampleScene");
+            }
+            
         }
         
     }

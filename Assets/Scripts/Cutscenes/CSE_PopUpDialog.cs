@@ -16,12 +16,20 @@ public class CSE_PopUpDialog : CutsceneElementBase
 
     private bool isTextActive;
 
+    public bool doesItHaveAPanel = false;
+
+    public GameObject panel;
+
     public override void Execute()
     {
         StartCoroutine(Wait());
         SetTextPosition();
 
         anim.Play("FadeIn");
+        if (doesItHaveAPanel)
+        {
+            panel.SetActive(true);
+        }
         StartCoroutine(TypeTextUncapped(dialogue));
         isTextActive = true;
     }
@@ -30,7 +38,12 @@ public class CSE_PopUpDialog : CutsceneElementBase
     {
         yield return new WaitForSeconds(duration-0.5f);
         anim.Play("FadeOut");
+        
         yield return new WaitForSeconds(0.5f);
+        if (doesItHaveAPanel)
+        {
+            panel.SetActive(false);
+        }
         cutsceneHandler.PlayNextElement();
     }
 

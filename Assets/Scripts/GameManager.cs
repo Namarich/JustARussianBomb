@@ -77,6 +77,9 @@ public class GameManager : MonoBehaviour
 
     public SoundManager soundManager;
 
+    public bool showPlayerCutscene;
+    public GameObject cutsceneBase;
+
     void Start()
     {
         if (startFromTheBeginning)
@@ -92,7 +95,16 @@ public class GameManager : MonoBehaviour
         {
             sliderMasterVolume.value = PlayerPrefs.GetFloat("masterVolume");
         }
-        
+
+        if ((currentLevel == 1 && PlayerPrefs.GetInt("maxLevel") == 1) || showPlayerCutscene)
+        {
+            cutsceneBase.GetComponent<BoxCollider2D>().enabled = true;
+        }
+        else
+        {
+            cutsceneBase.GetComponent<BoxCollider2D>().enabled = false;
+        }
+
 
 
         DefaultShaderSettings();
@@ -106,6 +118,8 @@ public class GameManager : MonoBehaviour
         {
             NewLevel();
         }
+
+        
 
         StartOfTheLevel = 0f;
         TimeTable.SetActive(false);
